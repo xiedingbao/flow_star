@@ -1,0 +1,243 @@
+# non-linear NAV 04
+
+hybrid reachability
+{
+ state var x, y, vx, vy
+	
+ setting
+ {
+  fixed steps 0.05
+  time 30
+  remainder estimation 1e-4
+  identity precondition
+  gnuplot octagon x,y
+  adaptive orders { min 3 , max 5 }
+  cutoff 1e-10
+  precision 53
+  output NAV04
+  max jumps 5
+  print on
+ }
+
+ modes
+ {
+  l1
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -1.2*vx + 0.1*vy + 0.7071 - 0.1*vx^3
+    vy' = 0.1*vx - 1.2*vy + 0.7071 - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [0,1]
+    y in [0,1]
+   }
+  }
+
+  l2
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -1.2*vx + 0.1*vy + 0.7071 - 0.1*vx^3
+    vy' = 0.1*vx - 1.2*vy + 0.7071 - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [1,2]
+    y in [0,1]
+   }
+  }
+  
+  l3
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -1.2*vx + 0.1*vy + 1 - 0.1*vx^3
+    vy' = 0.1*vx - 1.2*vy - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [0,1]
+    y in [1,2]
+   }
+  }
+  
+  l4
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -1.2*vx + 0.1*vy + 1 - 0.1*vx^3
+    vy' = 0.1*vx - 1.2*vy - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [1,2]
+    y in [1,2]
+   }
+  }
+  
+  l5
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -1.2*vx + 0.1*vy - 0.1*vx^3
+    vy' = 0.1*vx - 1.2*vy - 1 - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [2,3]
+    y in [1,2]
+   }
+  }
+  
+  l6
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -1.2*vx + 0.1*vy + 1 - 0.1*vx^3
+    vy' = 0.1*vx - 1.2*vy - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [1,2]
+    y in [2,3]
+   }
+  }
+  
+  l7
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -1.2*vx + 0.1*vy - 0.1*vx^3
+    vy' = 0.1*vx - 1.2*vy - 1 - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [2,3]
+    y in [2,3]
+   }
+  }
+ }
+
+ jumps
+ {
+  l1 -> l2
+  guard { x = 1 vx >= 0}
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l2 -> l1
+  guard { x = 1 vx <= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+
+  l1 -> l3
+  guard { y = 1 vy >= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l3 -> l1
+  guard { y = 1 vy <= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l3 -> l4
+  guard { x = 1 vx >= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l4 -> l3
+  guard { x = 1 vx <= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l2 -> l4
+  guard { y = 1 vy >= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l4 -> l2
+  guard { y = 1 vy <= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l4 -> l6
+  guard { y = 2 vy >= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l6 -> l4
+  guard { y = 2 vy <= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l4 -> l5
+  guard { x = 2 vx >= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l5 -> l4
+  guard { x = 2 vx <= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l6 -> l7
+  guard { x = 2 vx >= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l7 -> l6
+  guard { x = 2 vx <= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l7 -> l5
+  guard { y = 2 vy <= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l5 -> l7
+  guard { y = 2 vy >= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+ }
+
+ init
+ {
+  l1
+  {
+   x in [0,1]
+   y in [0,1]
+   vx in [0.1,0.5]
+   vy in [0.05,0.25]
+  }
+ }
+}
+
+unsafe set
+{
+ l3 { y = 2 }
+ l6 { x = 1 }
+}

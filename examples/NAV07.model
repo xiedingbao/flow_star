@@ -1,0 +1,463 @@
+# non-linear NAV 07
+
+hybrid reachability
+{
+ state var x, y, vx, vy
+	
+ setting
+ {
+  fixed steps 0.05
+  time 30
+  remainder estimation 1e-4
+  identity precondition
+  gnuplot octagon x,y
+  adaptive orders { min 3 , max 6 }
+  cutoff 1e-10
+  precision 53
+  output NAV07
+  max jumps 6
+  print on
+ }
+
+ modes
+ {
+  l1
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy + 1 - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [0,1]
+    y in [0,1]
+   }
+  }
+
+  l2
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy - 1 - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [2,3]
+    y in [0,1]
+   }
+  }
+  
+  l3
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy - 1 - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [3,4]
+    y in [0,1]
+   }
+  }
+  
+  l4
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy - 1 - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [0,1]
+    y in [1,2]
+   }
+  }
+  
+  l5
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy + 0.7017 - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy - 0.7017 - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [1,2]
+    y in [1,2]
+   }
+  }
+  
+  l6
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy - 1 - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [2,3]
+    y in [1,2]
+   }
+  }
+  
+  l7
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy - 1 - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [3,4]
+    y in [1,2]
+   }
+  }
+  
+  l8
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy + 1 - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [1,2]
+    y in [2,3]
+   }
+  }
+  
+  l9
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy + 0.7017 - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy - 0.7017 - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [2,3]
+    y in [2,3]
+   }
+  }
+  
+  l10
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy - 1 - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [3,4]
+    y in [2,3]
+   }
+  }
+  
+  l11
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy + 1 - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [0,1]
+    y in [3,4]
+   }
+  }
+  
+  l12
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy + 1 - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [1,2]
+    y in [3,4]
+   }
+  }
+  
+  l13
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy + 0.7017 - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy - 0.7017 - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [2,3]
+    y in [3,4]
+   }
+  }
+  
+  l14
+  {
+   poly ode 1
+   {
+    x' = vx
+    y' = vy
+    vx' = -0.8*vx - 0.2*vy - 0.1*vx^3
+    vy' = 0.2*vx - 0.8*vy - 1 - 0.1*vy^3
+   }
+
+   inv
+   {
+    x in [3,4]
+    y in [3,4]
+   }
+  }
+ }
+
+ jumps
+ {
+  l1 -> l4
+  guard { y = 1 vy >= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+
+  l4 -> l1
+  guard { y = 1 vy <= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l4 -> l5
+  guard { x = 1 vx >= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l5 -> l4
+  guard { x = 1 vx <= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l5 -> l6
+  guard { x = 2 vx >= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l6 -> l5
+  guard { x = 2 vx <= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l5 -> l8
+  guard { y = 2 vy >= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l8 -> l5
+  guard { y = 2 vy <= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l6 -> l7
+  guard { x = 3 vx >= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l7 -> l6
+  guard { x = 3 vx <= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l6 -> l2
+  guard { y = 1 vy <= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l2 -> l6
+  guard { y = 1 vy >= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l2 -> l3
+  guard { x = 3 vx >= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l3 -> l2
+  guard { x = 3 vx <= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l7 -> l3
+  guard { y = 1 vy <= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l3 -> l7
+  guard { y = 1 vy >= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l6 -> l9
+  guard { y = 2 vy >= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l9 -> l6
+  guard { y = 2 vy <= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l7 -> l10
+  guard { y = 2 vy >= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l10 -> l7
+  guard { y = 2 vy <= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l8 -> l9
+  guard { x = 2 vx >= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l9 -> l8
+  guard { x = 2 vx <= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l9 -> l10
+  guard { x = 3 vx >= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l10 -> l9
+  guard { x = 2 vx <= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l11 -> l12
+  guard { x = 1 vx >= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l12 -> l11
+  guard { x = 1 vx <= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l12 -> l13
+  guard { x = 2 vx >= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l13 -> l12
+  guard { x = 2 vx <= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l13 -> l14
+  guard { x = 3 vx >= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l14 -> l13
+  guard { x = 3 vx <= 0 }
+  reset { }
+  parallelotope aggregation { [vx:1] }
+  
+  l8 -> l12
+  guard { y = 3 vy >= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l12 -> l8
+  guard { y = 3 vy <= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l9 -> l13
+  guard { y = 3 vy >= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l13 -> l9
+  guard { y = 3 vy <= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l10 -> l14
+  guard { y = 3 vy >= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+  
+  l14 -> l10
+  guard { y = 3 vy <= 0 }
+  reset { }
+  parallelotope aggregation { [vy:1] }
+ }
+
+ init
+ {
+  l13
+  {
+   x in [2,3]
+   y in [3,4]
+   vx in [0.1,0.5]
+   vy in [-0.5,-0.1]
+  }
+ }
+}
+
+unsafe set
+{
+ l4 { y = 2 }
+ l8 { x = 1 }
+ l11 { x = 3 }
+}

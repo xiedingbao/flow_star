@@ -1,0 +1,71 @@
+# A hybrid system with 3 variables, 2 modes and 1 jump.
+# It is a stable system.
+
+hybrid reachability
+{
+ state var x,y,z
+	
+ setting
+ {
+  fixed steps 0.02
+  time 10
+  remainder estimation 1e-4
+  QR precondition
+  gnuplot octagon x,y
+  adaptive orders { min {x:3, y:3, z:3} , max {x:6, y:6, z:6} }
+  cutoff 1e-10
+  precision 53
+  output hybrid_stable
+  max jumps 1
+  print on
+ }
+	
+ modes
+ {
+  l1
+  {
+   poly ode 1
+   {
+    x' = -9*(x - 2) - 7*(y + 2) + (z - 1) + 0.2*(x - 2) * (y + 2) + 0.1*(y + 2)*(z - 1) + 0.1*(x - 2)*(z - 1) + 0.5*(z - 1)^2
+    y' = 6*(x - 2) + 4*(y + 2) + z - 1
+    z' = 3*(x - 2) + 2*(y + 2) - 2.5*(z - 1)
+   }
+   inv {}
+  }
+		
+  l2
+  {
+   poly ode 1
+   {
+    x' = 2.2*x + 3.6*y + 3.9*z
+    y' = 3*x + 2.4*y + 3.4*z - 0.01*x^2
+    z' = -5*x - 5.4*y - 6.7*z
+   }
+   inv {}
+  }
+ }
+	
+  jumps
+  {
+   l1 -> l2
+
+   guard {
+    x in [1.7,2.3]
+    y in [-2.3,-1.7]
+    z in [0.7,1.3]
+   }
+
+   reset {}
+   parallelotope aggregation {}
+  }
+	
+ init
+ {
+  l1
+  {
+   x in [3 , 3.5]
+   y in [-3 , -2.5]
+   z in [0.7 , 1.3]
+  }
+ }
+}

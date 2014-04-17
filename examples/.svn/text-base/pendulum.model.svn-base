@@ -1,0 +1,29 @@
+continuous reachability
+{
+ state var x, y
+ setting
+ {
+  fixed steps 0.02
+  time 5
+  remainder estimation 1e-3
+  QR precondition
+  gnuplot octagon x,y
+  adaptive orders { min 3, max 8}
+  cutoff 1e-12
+  precision 128
+  output pendulum
+  print on
+ }
+
+ nonpoly ode
+ {
+  x' = y
+  y' = -9.8*sin(x) - y
+ }
+
+ init
+ {
+  x in [0.8,1]
+  y in [-0.1,0.1]
+ }
+}

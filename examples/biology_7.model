@@ -1,0 +1,43 @@
+# Klipp et al. Systems Biology in Practice: Concepts, Implementation and Application. Wiley-Blackwell press. 2005.
+
+continuous reachability
+{
+ state var x1,x2,x3,x4,x5,x6,x7
+	
+ setting
+ {
+  fixed steps 0.002
+  time 2
+  remainder estimation 1e-7
+  identity precondition
+  gnuplot octagon x3,x4
+  adaptive orders { min {x1:3, x2:3, x3:3, x4:3, x5:3, x6:3, x7:3} , max{x1:5, x2:5, x3:5, x4:5, x5:5, x6:5, x7:5} }
+  cutoff 1e-10
+  precision 53
+  output biology_7
+  print on
+ }
+
+ poly ode 1
+ {
+  x1'= -0.4*x1 + 50*x3*x4
+  x2'= 0.4*x1 - x2
+  x3'= x2 - 50*x3*x4
+  x4'= 50*x5*x6 - 50*x3*x4
+  x5'= -50*x5*x6 + 50*x3*x4
+  x6'= 0.5*x7 - 50*x5*x6
+  x7'= -0.5*x7 + 50*x5*x6
+ }
+
+ init
+ {
+  x1 in [0.1,0.105]
+  x2 in [0.1,0.105]
+  x3 in [0.1,0.105]
+  x4 in [0.1,0.105]
+  x5 in [0.1,0.105]
+  x6 in [0.1,0.105]
+  x7 in [0.1,0.105]
+ }
+}
+

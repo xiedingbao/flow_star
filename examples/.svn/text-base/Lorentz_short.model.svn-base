@@ -1,0 +1,38 @@
+# Lorenz system
+# http://en.wikipedia.org/wiki/Lorenz_system
+
+continuous reachability
+{
+ state var x,y,z
+	
+ setting
+ {
+  fixed steps 0.01
+  time 1
+  remainder estimation 1e-3
+  QR precondition
+  gnuplot octagon x,y
+  adaptive orders { min {x:3 , y:3, z:3} , max {x:6 , y:6, z:6} }
+  cutoff 1e-15
+  precision 128
+  output Lorentz_short
+  print on
+ }
+
+ poly ode 1
+ {
+  x' = 10 * (y - x)
+  y' = x * ( 28 - z ) - y
+  z' = x * y - 2.6667*z
+ }
+
+ init
+ {
+  x in [14.99,15.01]
+  y in [14.99,15.01]
+  z in [35.99,36.01]
+ }
+}
+
+
+

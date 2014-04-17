@@ -1,0 +1,35 @@
+continuous reachability
+{
+ state var x,y
+	
+ setting
+ {
+  fixed steps 0.02
+  time 7
+  remainder estimation 1e-5
+  QR precondition
+  gnuplot octagon x,y
+  adaptive orders { min {x:4 , y:4} , max {x:6 , y:6} }
+  cutoff 1e-15
+  precision 53
+  output vanderpol
+  print on
+ }
+	
+ poly ode 1
+ {
+  x' =  y
+  y' =  y - x - x^2*y
+ }
+ 
+ init
+ {
+  x in [1.25 , 1.55]
+  y in [2.25 , 2.35]
+ }
+}
+
+unsafe set
+{
+ x <= -1.9
+}

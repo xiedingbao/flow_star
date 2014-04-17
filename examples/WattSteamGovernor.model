@@ -1,0 +1,32 @@
+continuous reachability
+{
+ state var x, y, z
+ 
+ setting
+ {
+  fixed steps 0.02
+  time 5
+  remainder estimation 1e-5
+  QR precondition
+  gnuplot octagon x,y
+  adaptive orders { min {x:4, y:4, z:4} , max {x:10, y:10, z:10} }
+  cutoff 1e-10
+  precision 53
+  output WattSteamGovernor
+  print on
+ }
+
+ nonpoly ode
+ {
+  x' = y
+  y' = sin(x) * (z^2 * cos(x) - 1) - 0.5*y
+  z' = cos(x) - 0.5
+ }
+
+ init
+ {
+  x in [-0.01,0.01]
+  y in [0.01,0.01]
+  z in [0.1,0.1]
+ }
+}
